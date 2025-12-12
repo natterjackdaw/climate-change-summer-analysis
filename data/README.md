@@ -1,0 +1,1 @@
+The data directory is where you will store data.

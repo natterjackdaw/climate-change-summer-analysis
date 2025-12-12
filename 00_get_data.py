@@ -4,128 +4,89 @@ from typing import List
 # climate data download library
 import cdsapi
 
+
 full_map = [90, -180, -90, 180]
 
-summer_days_dict = {
-    "06": 30,
-    "07": 31,
-    "08": 31
-}
-
-max_days = [
-    "01", "02", "03",
-    "04", "05", "06",
-    "07", "08", "09",
-    "10", "11", "12",
-    "13", "14", "15",
-    "16", "17", "18",
-    "19", "20", "21",
-    "22", "23", "24",
-    "25", "26", "27",
-    "28", "29", "30",
-    "31"
-]
-
-def download_grib_summer_data(
+def download_grib_monthly_mean_data(
         v: str = "2m_temperature",
+        min_month: int = 1,
+        max_month: int = 12,
         min_year: int = 1950,
         max_year: int = 2025,
         lat_lon_area: List[int] = full_map,
-        area_desc: str = '',
-        check_output: bool = False
+        area_desc: str = ''
 ) -> None:
     """
-    Docstring for download_grib_data, one variable at a time.
-    Loops through years and months.
+    Download monthly mean re-analysis for one variable.
     
-    :param v: Which variable do you want to download using API
+    :param v: Name of the variable you want to download
     :type v: str
-    :param min_year: First year of data to download
+    :param min_month: Earliest month in the year to download for
+    :type min_month: int
+    :param max_month: Latest month in the year to download for
+    :type max_month: int
+    :param min_year: Earliest year to download
     :type min_year: int
-    :param max_year: Final year of data to download (inclusive)
+    :param max_year: Last year to download
     :type max_year: int
-    :param months: Which months to download
-    :type months: List[str]
-    :param lat_lon_area: A list of 4 numbers - min latitude, 
-    min longitude, max latitude, max longitude
+    :param lat_lon_area: [N, W, S, E]
     :type lat_lon_area: List[int]
-    :param check_output: If True, it will not download data, just
-    print the instructions
-    :type check_output: bool
-    """    
+    :param area_desc: A string to put in file to describe area (default is empty)
+    :type area_desc: str
+    """
 
-    months = summer_days_dict.keys()
+    months = [
+         f"{m:02}" for m in range(min_month, max_month+1)
+    ]
+    min_month_str = months[0]
+    max_month_str = months[-1]
+
     years = [
         str(year) for year in
         range(min_year, max_year + 1)
     ]
 
-    dataset = "reanalysis-era5-land"
 
     client = cdsapi.Client()
+    dataset = "reanalysis-era5-single-levels-monthly-means"
+
     data_dir = f"{os.getcwd()}/data"
     existing_files = os.listdir(data_dir)
 
-    for yyyy in years:
-        for mm in months:
+    target = f"monthly_mean_{v}_{area_desc}_{min_year}{min_month_str}-{max_year}{max_month_str}.grib"
+    target_path = f"{data_dir}/{target}"
 
-            target = f"{v}_{area_desc}_{yyyy}{mm}_alltime.grib"
+    if target in existing_files:
+        
+        print(f"{target} already downloaded...")
+    
+    else:
 
-            last_day = summer_days_dict[mm]
-            days = max_days[:last_day]
-
-            if target in existing_files:
-                print(f"{target} already downloaded...")
-                continue
-
-            print(f"Starting API for {target}...")
-
-            request = {
-                "variable": [v],
-                "year": yyyy,
-                "month": mm,
-                "day": days,
-                "time": [
-                    "00:00", "01:00", "02:00",
-                    "03:00", "04:00", "05:00",
-                    "06:00", "07:00", "08:00",
-                    "09:00", "10:00", "11:00",
-                    "12:00", "13:00", "14:00",
-                    "15:00", "16:00", "17:00",
-                    "18:00", "19:00", "20:00",
-                    "21:00", "22:00", "23:00"
-                ],
-                "data_format": "grib",
-                "download_format": "unarchived",
-                "area": lat_lon_area
+        request = {
+            "product_type": ["monthly_averaged_reanalysis"],
+            "variable": [v],
+            "year": years,
+            "month": months,
+            "time": ["00:00"],
+            "data_format": "grib",
+            "download_format": "unarchived",
+            "area": lat_lon_area
             }
 
-            target_path = f"{data_dir}/{target}"
-
-            print(f"Downloading {yyyy}-{mm} data")
-            print(f"into {target_path}")
-
-            if check_output == True:
-
-                print(request)
-
-            else:
                 
-                print("Downloading...")
-                client.retrieve(dataset, request, target_path)#.download()
-
-            print()
+        print(f"Downloading to {target_path}...")
+        client.retrieve(dataset, request, target_path)
 
 
 if __name__ == "__main__":
 
-    europe_area = [25, -25, 72, 65]
-    summer_months = ["06", "07", "08"]
+    europe_area = [72, -25, 35, 65]
 
-    download_grib_summer_data(
+    download_grib_monthly_mean_data(
         min_year=1950,
-        max_year=1951,
+        max_year=2025,
+        min_month=6,
+        max_month=8,
         lat_lon_area=europe_area,
-        area_desc="europe",
-        check_output=False
+        area_desc="europe"
     )
