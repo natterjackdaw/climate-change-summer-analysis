@@ -210,3 +210,6 @@ __marimo__/
 *.nc
 *.grib
 *.idx
+
+# test images
+*test*.png
