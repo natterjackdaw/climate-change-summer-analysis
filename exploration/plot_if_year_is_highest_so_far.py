@@ -23,9 +23,9 @@ ds_stop_at_year2plot = ds.where(ds["year"]<=year2plot)
 da = ds_stop_at_year2plot["t2m"].to_numpy()
 lons = ds["longitude"].to_numpy()
 lats = ds["latitude"].to_numpy()
-years = ds["year"].to_numpy().tolist()
+years = ds_stop_at_year2plot["year"].to_numpy().tolist()
 print(da.shape, lons.shape, lats.shape)
-year_index = years.index(2025)
+year_index = years.index(year2plot)
 
 # calculate the maximum mean summer temperature
 max_summer = da.max(axis=0)
