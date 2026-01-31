@@ -1,3 +1,1 @@
-import pytest
-
-import src.climate_stats as climate_stats
+from src.climate_stats import calc_percentile_3d_array

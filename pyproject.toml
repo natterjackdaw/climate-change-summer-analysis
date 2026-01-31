@@ -3,4 +3,4 @@
 # Retrieved 2026-01-31, License - CC BY-SA 4.0
 
 [pytest]
-pythonpath = . src
+pythonpath = ["src"]
