@@ -1,1 +1,1 @@
-from src.climate_stats import calc_percentile_3d_array
+from src.climate_stats import calc_percentile_over_time
