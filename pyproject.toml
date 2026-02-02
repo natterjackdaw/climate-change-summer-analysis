@@ -1,0 +1,6 @@
+# Source - https://stackoverflow.com/a/49033954
+# Posted by hoefling, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-01-31, License - CC BY-SA 4.0
+
+[pytest]
+pythonpath = ["src"]
