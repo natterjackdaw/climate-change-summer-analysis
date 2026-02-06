@@ -1,27 +1,30 @@
 # climate-change-summer-analysis
 
 Read re-analysis data and plot insights into long term change in average
-summar temperature.
+summer temperature.
 
 ## Project status
 
-Early stages of the project - not ready for sharing wide.
+This project is for me to re-learn how to analyse climate data and use numPy.
 
-This project is for me to re-learn how to analyse climate data etc.
+Therefore, it may evolve over time.
 
 ## Contributing
 
-Since I have created this project for personal development, this project is
-not accepting contributions. 
+This project is for personal development, so I am not expecting any
+contributions.
 
-However, if you see any problems with my code, please raise an issue and I can 
-make improvements. Let me know if you would like an acknowledgement.
+However, if you see any problems with my code or want to suggest improvements, 
+please raise an issue and I can make improvements. Let me know if you would 
+like an acknowledgement.
 
 ## Licence
 
 Distributed under an MIT
 
 ## Acknowledgements
+
+If you found any of my code useful and want to acknowledge me, please 
 
 ### Software
 
