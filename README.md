@@ -4,16 +4,17 @@ Read re-analysis data and plot insights into long term change in average
 summer temperature.
 
 My motivation for this work:
-* I have a lot of old Python code from my PhD that is too old or messy to
-publish on GitHub, so wanted to show some basic things I could do with
-Python and spatial data.
-* I saw a plot of this already on LinkedIn, but I do not trust
+- Lots of old Python code from my PhD that is too old or messy to
+publish on GitHub. Therefore, I wanted to show some basic spatial analysis that I could do with
+Python.
+- A serious need to finish a project on GitHub!
+- I saw a plot of this already on LinkedIn, but I do not trust
 LinkedIn posts and I don't trust colourbars that have:
-** "hotter" and "much hotter" instead of percentiles
-** a lighter red for "hottest summer since 1970" compared to "much hotter"
-* I genuinely did not feel *that* warm in 2025, to me 2020 felt like a much 
-warmer summer on average. I wore an Oodie for most of 2024, but buying a fan 
-for the first time in my life in 2020/2021.
+  * "hotter" and "much hotter" instead of percentiles
+  * a lighter red for "hottest summer since 1970" compared to "much hotter"
+- Bought a fan in summer 2020 for the first time in my life vs. wore an Oodie most of summer 2024.
+And didn't feel particularly warm in 2025.
+I wanted to see how my experience is reflected in the re-analysis data!
 
 Therefore, the best thing to do was to reproduce the results and give it a
 colourbar to my liking!
@@ -25,11 +26,13 @@ and 2025!
 
 ## Project status
 
-This project is for me to re-learn how to analyse climate data and use numPy.
+This project is for me to go back and see what I can do with NumPy and climate data
+after a long break - most of my work involves PySpark dataframes nowadays.
 
-It's quite basic. Therefore, it may evolve over time. I have plans for more
-work expanding on this initial analysis, but I do not know if they will be
-the same repo or other ones.
+It's not complex code/analysis. 
+Therefore, it may evolve over time. 
+I have plans for more work expanding on this initial analysis, 
+but I do not know if they will be the same repo or other ones.
 
 ## Contributing
 
