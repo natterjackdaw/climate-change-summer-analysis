@@ -66,8 +66,6 @@ conf = ax.contourf(
     )
 
 
-# mask ocean - but only above other data,
-# should not mask this data, yet it does...
 ax.add_feature(cartopy.feature.OCEAN, 
                color = '#DEFFFF',
                zorder=2)

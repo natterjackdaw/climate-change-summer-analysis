@@ -36,3 +36,6 @@ def test_map_helper_errors():
 
     with pytest.raises(ValueError, match=expected_error):
         one_summery_summary_plot(a1, a2, lats, lons_wrong)
+
+    with pytest.raises(ValueError, match=expected_error):
+        one_summery_summary_plot(a1, a2, list(lats_wrong), list(lons_wrong))
