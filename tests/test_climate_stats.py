@@ -5,7 +5,10 @@ import re
 
 import pytest
 
-from src.climate_stats import calc_percentile_over_time
+from src.climate_stats import (
+    calc_percentile_over_time,
+    highest_so_far
+)
 
 
 
@@ -31,3 +34,27 @@ def test_calc_percentile_over_time():
     result1d = percentileofscore(array1d, array1d[5])
     result_from_3d = calc_percentile_over_time(test_array, 5)
     assert result1d == result_from_3d[2,3]
+
+
+def test_highest_so_far_errors():
+
+    too_small = np.array([
+        [1 , 2], [3, 4]
+    ])
+
+    ok_array = np.array([
+        [[1,2,3], [1,2,3], [5,6,7]],
+        [[2,3,4], [3,4,5], [5,4,6]]
+    ])
+
+    expected_error = re.escape(
+        'You need data (2, 2) to be 3D and year_index (1) to be equal to or more than first axis'
+        )
+    with pytest.raises(ValueError, match=expected_error):
+        highest_so_far(too_small, 1)
+
+    expected_error = re.escape(
+        'You need data (2, 3, 3) to be 3D and year_index (54) to be equal to or more than first axis'
+        )
+    with pytest.raises(ValueError, match=expected_error):
+        highest_so_far(ok_array, 54)

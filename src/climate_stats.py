@@ -35,3 +35,34 @@ def calc_percentile_over_time(
         a_result[j,i] = percentileofscore(a, s)
         
     return a_result
+
+
+def highest_so_far(
+        data: np.array,
+        year_index: int
+) -> np.array:
+    '''
+    Returns an array filled with 1 and None.
+    1 where that area for that year was the highest value so far
+    None where this is not true.
+    
+    :param data: A 3D array (years, lats, lons)
+    :type data: np.array
+    :param year_index: The index for the year that you want to know about
+    :type year_index: int
+    :return: Description
+    :rtype: np.array
+    '''
+    try:
+        years_so_far = data[:year_index,:,:]
+        latest_year = data[year_index,:,:]
+    except:
+        raise ValueError(
+            f'''You need data {data.shape} to be 3D and year_index ({year_index}) to be equal to or more than first axis'''
+        )
+
+    max_summer = data.max(axis=0)
+
+    diff = latest_year - max_summer
+
+    return np.where(diff == 0, 1, None)
