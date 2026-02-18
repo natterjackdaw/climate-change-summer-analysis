@@ -58,3 +58,26 @@ def test_highest_so_far_errors():
         )
     with pytest.raises(ValueError, match=expected_error):
         highest_so_far(ok_array, 54)
+
+
+def test_highest_so_far_result():
+
+    input = np.array([
+        [[23,8], [5,6]],
+        [[4,5], [100,200]]
+    ])
+
+    # by definition if y index = 0  then all 1
+    expected0 = np.array([
+        [1,1], [1, 1]
+    ])
+
+    expected1 = np.array([
+        [None, None], [1,1]
+    ])
+
+    assert isinstance(highest_so_far(input,1), np.ndarray)
+
+    assert highest_so_far(input, 0) == expected0
+
+    assert highest_so_far(input, 1) == expected1
