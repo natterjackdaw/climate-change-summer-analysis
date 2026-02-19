@@ -1,3 +1,4 @@
+from itertools import product
 import numpy as np
 from scipy.stats import percentileofscore
 import random
@@ -60,24 +61,35 @@ def test_highest_so_far_errors():
         highest_so_far(ok_array, 54)
 
 
+
 def test_highest_so_far_result():
 
     input = np.array([
-        [[23,8], [5,6]],
-        [[4,5], [100,200]]
+        [[23,8,6,2], [5,6,32,76], [99,3,3,1]],
+        [[4,5,83,0], [100,200,5,2], [54,6,2,3]]
     ])
+    print(input.shape)
 
     # by definition if y index = 0  then all 1
     expected0 = np.array([
-        [1,1], [1, 1]
-    ])
-
+        [1,1,1,1], [1,1,1,1], [1,1,1,1]]
+    )
+    actual0 = highest_so_far(input, 0)
+    
     expected1 = np.array([
-        [None, None], [1,1]
+        [None, None, 1, None], 
+        [1, 1, None, None],
+        [None, 1, None, 1]
     ])
+    actual1 = highest_so_far(input, 1)
 
-    assert isinstance(highest_so_far(input,1), np.ndarray)
+    assert actual0.shape == expected0.shape
+    assert actual1.shape == expected1.shape
 
-    assert highest_so_far(input, 0) == expected0
+    print(expected1)
+    print(actual1)
 
-    assert highest_so_far(input, 1) == expected1
+    for j, i in product(range(2), range(2)):
+
+        assert actual0[j,i] == expected0[j,i]
+        assert actual1[j,i] == expected1[j,i]

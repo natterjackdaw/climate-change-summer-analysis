@@ -45,6 +45,7 @@ def highest_so_far(
     Returns an array filled with 1 and None.
     1 where that area for that year was the highest value so far
     None where this is not true.
+    So if index is 0, it will return an array with all 1s
     
     :param data: A 3D array (years, lats, lons)
     :type data: np.array
@@ -60,9 +61,27 @@ def highest_so_far(
         raise ValueError(
             f'''You need data {data.shape} to be 3D and year_index ({year_index}) to be equal to or more than first axis'''
         )
+    
+    if year_index == 0:
+        # by definition, first year will have highest values so far
+        return np.full(latest_year.shape, 1)
+    else:
+        # if value is more than max value of previous years
+        # then it must be highest so far
+        max_summer = years_so_far.max(axis=0)
+        return np.where(latest_year >= max_summer, 1, None)
 
-    max_summer = data.max(axis=0)
+if __name__ == '__main__':
 
-    diff = latest_year - max_summer
+    random_input = np.random.rand(2,2,2)
+    print(random_input)
 
-    return np.where(diff == 0, 1, None)
+    print()
+    output = highest_so_far(random_input, 0)
+    print(output.shape)
+    print(output)
+
+    print()
+    output = highest_so_far(random_input,1)
+    print(output.shape)
+    print(output)
