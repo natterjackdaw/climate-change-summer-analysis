@@ -211,5 +211,7 @@ __marimo__/
 *.grib
 *.idx
 
+# probably all images
+*.png
 # test images
 *test*.png

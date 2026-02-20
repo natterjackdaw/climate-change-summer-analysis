@@ -3,6 +3,9 @@ import random
 
 import pytest
 
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
 from src.map_helpers import one_summery_summary_plot
 
 
@@ -16,7 +19,8 @@ def test_map_helper_errors():
     lats = np.random.rand(3)
     lats_wrong = np.random.rand(12)
     lons = np.random.rand(4)
-    lons_wrong = np.random.rand(2)
+    lons_list_wrong = [i for i in range(-10, 90, 10)]
+    lats_list_wrong = [i for i in range(0, 70, 10)]
 
     # do not match
     expected_error = 'shape of percentile_data and hottest_so_far do not match'
@@ -35,7 +39,10 @@ def test_map_helper_errors():
         one_summery_summary_plot(a1, a2, lats_wrong, lons)
 
     with pytest.raises(ValueError, match=expected_error):
-        one_summery_summary_plot(a1, a2, lats, lons_wrong)
-
-    with pytest.raises(ValueError, match=expected_error):
-        one_summery_summary_plot(a1, a2, list(lats_wrong), list(lons_wrong))
+        one_summery_summary_plot(
+            a1, a2, list(lats_list_wrong), list(lons_list_wrong)
+            )
+    
+    # make sure nothing else pops up
+    test_fig = one_summery_summary_plot(a1, a2, lats, lons)
+    assert isinstance(test_fig, mpl.figure.Figure)

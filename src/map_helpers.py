@@ -1,6 +1,7 @@
 import numpy as np
 from typing import List
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 import cartopy
@@ -12,7 +13,7 @@ def one_summery_summary_plot(
     hottest_so_far_data: np.array,
     lats: np.array | List,
     lons: np.array | List
-) -> plt.figure:
+) -> mpl.figure.Figure:
     '''
     Docstring for one_summery_summary_plot
     
@@ -45,6 +46,10 @@ def one_summery_summary_plot(
     
     if percentile_data.size != len(lats) * len(lons):
         raise ValueError('lats and lons do not match shape of array')
+
+    # make sure that hottest is dtype int
+    if hottest_so_far_data.dtype == object:
+        hottest_so_far_data = hottest_so_far_data.astype(np.float64)
     
     # only one plot per figure
     fig = plt.figure()
@@ -69,8 +74,8 @@ def one_summery_summary_plot(
     
     conf_bool = ax.contourf(
         lons, lats, hottest_so_far_data,
-        #colors='white', 
-        hatches=['xxxxx'],
+        colors= None,
+        hatches=['xxx'],
         zorder=2
         )
 
@@ -78,6 +83,7 @@ def one_summery_summary_plot(
                color = '#DEFFFF',
                zorder=3)
 
-    fig.colorbar(conf, orientation='horizontal')
+    fig.colorbar(conf, orientation='horizontal', ax=ax)
 
     return fig
+
