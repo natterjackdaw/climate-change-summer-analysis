@@ -3,6 +3,7 @@ from typing import List
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
 import cartopy
 import cartopy.crs as ccrs
@@ -14,6 +15,7 @@ def one_summery_summary_plot(
     hottest_so_far_data: np.array,
     lats: np.array | List,
     lons: np.array | List,
+    hatch_style: str = "xxx"
 ) -> mpl.figure.Figure:
     """
     Docstring for one_summery_summary_plot
@@ -29,12 +31,14 @@ def one_summery_summary_plot(
     :type percentile_data: np.array
     :param hottest_so_far_data: All data points are 1 or null for plotting
     :type hottest_so_far_data: np.array
-    :param lats: Latitude
+    :param lats: Latitude (y-axis) of data
     :type lats: np.array | List
-    :param lons: Description
+    :param lons: Longitude (x-axis) of data
     :type lons: np.array | List
     :return: The plot object we want out (hopefully)
     :rtype: matplotlib figure
+    :param hatch_style: what hatching to put in areas where it is hottest so far
+    :rtype: str
     """
 
     if percentile_data.shape != hottest_so_far_data.shape:
@@ -68,13 +72,18 @@ def one_summery_summary_plot(
         extend="both",
     )
 
-    conf_bool = ax.contourf(
-        lons, lats, hottest_so_far_data, colors="none", hatches=["xxx"], zorder=2
+    ax.contourf(
+        lons, lats, hottest_so_far_data, colors="none", 
+        hatches=[hatch_style], zorder=2
     )
 
     ax.add_feature(cartopy.feature.OCEAN, color="#DEFFFF", zorder=3)
 
-    fig.colorbar(conf, orientation="horizontal", ax=ax)
-    fig.colorbar(conf_bool, orientation="horizontal", ax=ax)
+    fig.colorbar(conf, orientation="vertical", ax=ax)
+
+    legend_elements = [
+        Patch(hatch=hatch_style)
+    ]
+    ax.legend(handles=legend_elements, loc='right')
 
     return fig
