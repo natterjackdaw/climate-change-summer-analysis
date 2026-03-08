@@ -16,7 +16,7 @@ data_path = f"{data_dir}/summer_mean_2m_temperature_europe_1950-2025.nc"
 ds = xr.open_dataset(data_path, engine="netcdf4")
 
 # plot for 2019 - 2025
-years_to_analyse = [y for y in range(2019,2026)]
+years_to_analyse = [y for y in range(2019, 2026)]
 # years_to_analyse = [2019] # for testing
 
 # convert to numpy
