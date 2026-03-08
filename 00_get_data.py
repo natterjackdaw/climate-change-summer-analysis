@@ -7,18 +7,19 @@ import cdsapi
 
 full_map = [90, -180, -90, 180]
 
+
 def download_grib_monthly_mean_data(
-        v: str = "2m_temperature",
-        min_month: int = 1,
-        max_month: int = 12,
-        min_year: int = 1950,
-        max_year: int = 2025,
-        lat_lon_area: List[int] = full_map,
-        area_desc: str = ''
+    v: str = "2m_temperature",
+    min_month: int = 1,
+    max_month: int = 12,
+    min_year: int = 1950,
+    max_year: int = 2025,
+    lat_lon_area: List[int] = full_map,
+    area_desc: str = "",
 ) -> None:
     """
     Download monthly mean re-analysis for one variable.
-    
+
     :param v: Name of the variable you want to download
     :type v: str
     :param min_month: Earliest month in the year to download for
@@ -35,17 +36,11 @@ def download_grib_monthly_mean_data(
     :type area_desc: str
     """
 
-    months = [
-         f"{m:02}" for m in range(min_month, max_month+1)
-    ]
+    months = [f"{m:02}" for m in range(min_month, max_month + 1)]
     min_month_str = months[0]
     max_month_str = months[-1]
 
-    years = [
-        str(year) for year in
-        range(min_year, max_year + 1)
-    ]
-
+    years = [str(year) for year in range(min_year, max_year + 1)]
 
     client = cdsapi.Client()
     dataset = "reanalysis-era5-single-levels-monthly-means"
@@ -57,11 +52,9 @@ def download_grib_monthly_mean_data(
     target_path = f"{data_dir}/{target}"
 
     if target in existing_files:
-        
         print(f"{target} already downloaded...")
-    
-    else:
 
+    else:
         request = {
             "product_type": ["monthly_averaged_reanalysis"],
             "variable": [v],
@@ -70,16 +63,14 @@ def download_grib_monthly_mean_data(
             "time": ["00:00"],
             "data_format": "grib",
             "download_format": "unarchived",
-            "area": lat_lon_area
-            }
+            "area": lat_lon_area,
+        }
 
-                
         print(f"Downloading to {target_path}...")
         client.retrieve(dataset, request, target_path)
 
 
 if __name__ == "__main__":
-
     europe_area = [72, -25, 35, 65]
 
     download_grib_monthly_mean_data(
@@ -88,5 +79,5 @@ if __name__ == "__main__":
         min_month=6,
         max_month=8,
         lat_lon_area=europe_area,
-        area_desc="europe"
+        area_desc="europe",
     )

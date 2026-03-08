@@ -6,7 +6,6 @@ import xarray as xr
 
 from scipy.stats import percentileofscore
 
-from mpl_toolkits.basemap import Basemap, addcyclic
 import matplotlib.pyplot as plt
 
 import cartopy
@@ -30,27 +29,21 @@ years = ds["year"].to_numpy().tolist()
 print(da.shape, lons.shape, lats.shape)
 
 year_index = years.index(year2plot)
-da_one_year = da[year_index,:,:]
+da_one_year = da[year_index, :, :]
 
 # calc percentile
 da_result = np.empty(shape=da_one_year.shape)
 
 for j, i in product(range(len(lats)), range(len(lons))):
-
-    a = da[:,j,i]
-    s = da_one_year[j,i]
-    da_result[j,i] = percentileofscore(a, s)
+    a = da[:, j, i]
+    s = da_one_year[j, i]
+    da_result[j, i] = percentileofscore(a, s)
 
 # PLOT
 
 fig = plt.figure()
-ax = fig.add_subplot(1,1,1,
-                     projection=ccrs.PlateCarree()
-                     )
-ax.set_extent(
-    [lons[0], lons[-1], lats[0], lats[-1]],
-    crs=ccrs.PlateCarree()
-)
+ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
+ax.set_extent([lons[0], lons[-1], lats[0], lats[-1]], crs=ccrs.PlateCarree())
 
 
 # map.drawcoastlines(linewidth=0.2)
@@ -58,22 +51,18 @@ ax.add_feature(cfeature.COASTLINE, lw=0.2)
 ax.add_feature(cfeature.BORDERS, linewidth=0.2)
 
 conf = ax.contourf(
-    lons, lats, da_result,
-    levels = [20, 30, 40, 50, 60, 70, 80],
-    cmap='coolwarm',
+    lons,
+    lats,
+    da_result,
+    levels=[20, 30, 40, 50, 60, 70, 80],
+    cmap="coolwarm",
     zorder=1,
-    extend='both'
-    )
+    extend="both",
+)
 
 
-ax.add_feature(cartopy.feature.OCEAN, 
-               color = '#DEFFFF',
-               zorder=2)
+ax.add_feature(cartopy.feature.OCEAN, color="#DEFFFF", zorder=2)
 
-fig.colorbar(conf, orientation='horizontal')
+fig.colorbar(conf, orientation="horizontal")
 
-plt.savefig('images/test_percentile.png')
-
-
-
-
+plt.savefig("images/test_percentile.png")
