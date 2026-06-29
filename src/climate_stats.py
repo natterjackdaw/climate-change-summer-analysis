@@ -19,8 +19,8 @@ def calc_percentile_over_time(data: np.array, index_of_score: int) -> np.array:
     axis_dict = {}
     try:
         axis_dict[0], axis_dict[1], axis_dict[2] = data.shape
-    except ValueError:
-        raise ValueError(f"data array is not the correct shape: {data.shape}")
+    # except ValueError:
+    #     raise ValueError(f"data array is not the correct shape: {data.shape}")
     except Exception as E:
         print(E)
 
@@ -49,12 +49,9 @@ def highest_so_far(data: np.array, year_index: int) -> np.array:
     :rtype: np.array
     """
     try:
+        assert data.ndim == 3
         years_so_far = data[:year_index, :, :]
         latest_year = data[year_index, :, :]
-    except ValueError:
-        raise ValueError(
-            f"""You need data {data.shape} to be 3D and year_index ({year_index}) to be equal to or more than first axis"""
-        )
     except Exception as E:
         print(E)
 
